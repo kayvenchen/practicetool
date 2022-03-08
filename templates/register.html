@@ -1,0 +1,16 @@
+{% if form.username.errors %}
+    <ul class="errors">
+    {% for error in form.username.errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<form class="register" method="post">
+  {{ form.csrf_token }}
+  {{form.username}}
+  {{form.email}}
+  {{form.password}}
+  {{form.password2}}
+  <input type="submit" value="Go">
+</form>
