@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_user, LoginManager, current_user, login_required
-from forms import LoginForm, RegistrationForm, CreateChatForm, SendMessageForm
+from forms import LoginForm, RegistrationForm
 import models
 from is_safe_url import is_safe_url
 
