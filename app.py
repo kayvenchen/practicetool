@@ -25,6 +25,17 @@ def load_user(id):
 def index():
     return render_template('index.html')
 
+@app.route('/diary', methods=['GET'])
+def diary():
+    return render_template('diary.html')
+
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        diary = models.Diary.query.filter(models.Diary.notes.ilike('%' + request.form.get("filter") + '%')).all()
+    return render_template('diary.html', diary=diary)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -37,10 +48,7 @@ def login():
         else:
             login_user(user, remember=form.remember_me.data)
             flash('Logged in successfully.')
-        next = request.args.get('next')
-        if not is_safe_url(next, allowed_hosts="localhost:5000"):
-            return abort(400)
-        return redirect(next or url_for('index'))
+        return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -49,7 +57,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = models.User(email=form.email.data, username=form.email.data)
+        user = models.User(email=form.email.data, username=form.email.data, preference_id=1)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

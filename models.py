@@ -8,7 +8,7 @@ from datetime import datetime
 class User(UserMixin, db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    preferences_id = db.Column(db.String, ForeignKey('Preferences.id'))
+    preference_id = db.Column(db.String, ForeignKey('Preference.id'))
     username = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)

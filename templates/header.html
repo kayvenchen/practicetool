@@ -6,10 +6,12 @@
 <div class="dropdown" style="float:right;">
   <button class="dropbtn"><img src="static/images/user_icon.png" alt="Login Stuff" height="50px"></button>
   <div class="dropdown-content">
+  {% if not current_user.is_authenticated %}
   <a href="/login">Login</a>
   <a href="/register">Register</a>
+  {% endif %}
   {% if current_user.is_authenticated %}
-  <a href="">Logout</a>
+  <a href="/logout">Logout</a>
   {% endif %}
   </div>
 </div>
