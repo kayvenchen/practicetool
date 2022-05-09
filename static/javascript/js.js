@@ -21,3 +21,17 @@ $(document).keydown(function(event) {
     $('#Modal').modal('hide');
   }
 });
+
+$(document).ready(function(){
+  $(.'open_diary').click(function(){
+    $('.open_diary').hide();
+    var id = $(this).data('diary_id'):
+    $.ajax({
+      url: '/open_diary',
+      type: 'post',
+      data: {id: id},
+      success: function(data){
+      }
+    })
+  })
+})
