@@ -39,8 +39,9 @@ def diary():
 
 @app.route('/diary/<string:diary_id>')
 @login_required
-def diary(id):
-    diary = models.diary.query.filter_by
+def diary_baka(id):
+    pass
+    #diary = models.diary.query.filter_by()
 
 @app.route('/create_diary', methods=['POST'])
 @login_required
