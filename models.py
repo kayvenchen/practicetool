@@ -8,7 +8,6 @@ from datetime import datetime
 class User(UserMixin, db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    preference_id = db.Column(db.String, ForeignKey('Preference.id'))
     username = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
@@ -27,10 +26,11 @@ class Type(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     type = db.Column(db.String, primary_key=True, nullable=False)
 
-class Preference(db.Model):
-    __tablename__ = 'Preference'
+class Diary(db.Model):
+    __tablename__ = 'Diary'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    preference = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
+    title = db.Column(db.String)
 
 class Exercise(db.Model):
     __tablename__ = 'Exercise'
@@ -40,8 +40,8 @@ class Exercise(db.Model):
     description = db.Column(db.String, nullable=False)
     is_public = db.Column(db.Boolean, nullable=False)
 
-class Diary(db.Model):
-    __tablename__ = 'Diary'
+class Entry(db.Model):
+    __tablename__ = 'Entry'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)

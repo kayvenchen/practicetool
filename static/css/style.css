@@ -109,6 +109,8 @@ body {
   background-color: #111;
 }
 
+
+
 /* footer */
 .footer {
   position: fixed;
@@ -116,4 +118,8 @@ body {
   bottom: 10px;
   width: 100%;
   text-align: center;
+}
+
+.create_diary {
+  z-index: 7:
 }

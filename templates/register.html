@@ -7,10 +7,25 @@
 {% endif %}
 
 <form class="register" method="post">
-  {{ form.csrf_token }}
-  {{form.username}}
-  {{form.email}}
-  {{form.password}}
-  {{form.password2}}
-  <input type="submit" value="Go">
-</form>
+
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+    {{form.username}}
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    {{form.email}}
+  </div>
+
+  <div class="form-outline mb-4">
+    {{form.password}}
+  </div>
+
+  <div class="form-outline mb-4">
+    {{form.password2}}
+  </div>
+
+
+  <!-- Submit button -->
+{{form.submit}}

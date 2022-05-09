@@ -1,0 +1,10 @@
+{% extends 'layout.html' %} {% block content %}
+
+
+{% include 'search.html' %}
+<button type="button" class="create_diary" name="button">baka</button>
+
+{% for diary in diary %}
+<button type="button" class="create_diary" name="button" href="{{url_for('diary_id', diary_id={{diary.id}})}}">{{diary.title}}</button>
+{% endfor %}
+{% endblock %}

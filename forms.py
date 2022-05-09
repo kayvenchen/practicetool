@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, StringField, TextAreaField, FileField, DateField, TimeField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
 
 class LoginForm(FlaskForm):
@@ -17,3 +17,18 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password'), Length(max=36)], render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField('Register')
+
+class DiaryForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": ""})
+    submit = SubmitField('Create')
+
+class EntryForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    date = DateField("Date", validators=[DataRequired()])
+    start_time = TimeField("Start Time", validators=[DataRequired()])
+    end_time = TimeField("Start Time", validators=[DataRequired()])
+    notes = TextAreaField("Notes", validators=[DataRequired()])
+
+class ImageForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    file = FileField("File", validators=[DataRequired()])
