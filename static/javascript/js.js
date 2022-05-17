@@ -24,14 +24,16 @@ $(document).keydown(function(event) {
 
 $(document).ready(function(){
   $(.'open_diary').click(function(){
-    $('.open_diary').hide();
     var id = $(this).data('diary_id'):
     $.ajax({
       url: '/open_diary',
       type: 'post',
       data: {id: id},
       success: function(data){
+        $('.baka').html(data);
+        $('.baka').append(data.htmlresponse);
+        $('.baka').modal('show');
       }
-    })
-  })
-})
+    });
+  });
+});

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_user, LoginManager, current_user, login_required
-from forms import LoginForm, RegistrationForm, DiaryForm
+from forms import LoginForm, RegistrationForm, DiaryForm, EntryForm
 import models
 from is_safe_url import is_safe_url
 from contextlib import contextmanager
@@ -39,9 +39,12 @@ def diary():
 
 @app.route('/diary/<string:diary_id>')
 @login_required
-def diary_baka(id):
-    pass
-    #diary = models.diary.query.filter_by()
+def open_diary(id):
+    if request.method =="POST":
+        form = EntryForm()
+        id = request.form['id']
+        diary = models.Diary.query.filter_by(id=id).all()
+    return jsonify({'htmlresponse': render_template('open_diary.html', form=form)})
 
 @app.route('/create_diary', methods=['POST'])
 @login_required

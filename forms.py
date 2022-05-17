@@ -28,6 +28,8 @@ class EntryForm(FlaskForm):
     start_time = TimeField("Start Time", validators=[DataRequired()])
     end_time = TimeField("Start Time", validators=[DataRequired()])
     notes = TextAreaField("Notes", validators=[DataRequired()])
+    submit = SubmitField('Enter')
+
 
 class ImageForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
