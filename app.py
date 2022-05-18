@@ -40,11 +40,10 @@ def diary():
 @app.route('/diary/<string:diary_id>')
 @login_required
 def open_diary(id):
-    if request.method =="POST":
-        form = EntryForm()
-        id = request.form['id']
-        diary = models.Diary.query.filter_by(id=id).all()
-    return jsonify({'htmlresponse': render_template('open_diary.html', form=form)})
+    form = EntryForm()
+    diary = models.Diary.query.filter_by(id=id).all()
+    return render_template('open_diary.html', diary=diary)
+
 
 @app.route('/create_diary', methods=['POST'])
 @login_required
@@ -71,10 +70,7 @@ def login():
         else:
             login_user(user, remember=form.remember_me.data)
             flash('Logged in successfully.')
-        next = request.args.get('next')
-        if not is_safe_url(next, allowed_hosts="localhost:5000"):
-            return abort(400)
-        return redirect(next or url_for('index'))
+        return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -95,7 +91,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

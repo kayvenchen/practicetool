@@ -1,3 +1,5 @@
+Register
+
 {% if form.username.errors %}
     <ul class="errors">
     {% for error in form.username.errors %}
@@ -29,3 +31,6 @@
 
   <!-- Submit button -->
 {{form.submit}}
+</form>
+
+<a href="{{url_for('login')}}">login</a>
