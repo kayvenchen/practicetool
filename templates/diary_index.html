@@ -1,10 +1,13 @@
 {% extends 'layout.html' %} {% block content %}
 
 
-{% include 'search.html' %}
-<button type="button" class="create_diary" name="button">baka</button>
 
-{% for diary in diary %}
-<button type="button" class="open_diary" name="button" href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</button>
-{% endfor %}
-{% endblock %}
+<div id="wrapper">
+  {% include 'search.html' %}
+  <button type="button" class="create_diary" name="button">baka</button>
+
+  {% for diary in diary %}
+  <button type="button" class="open_diary" name="button" href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</button>
+  {% endfor %}
+  {% endblock %}  
+</div>

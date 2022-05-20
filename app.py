@@ -21,6 +21,10 @@ login_manager.init_app(app)
 def load_user(id):
     return models.User.query.get(int(id))
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('login'))
+
 #@app.context_processor
 #def context_processor():
     #return title == "My awesome website"

@@ -1,8 +1,8 @@
 <!-- header -->
 <div class="header">
-  practice tool
-</div>
 
+  practice tool
+  
 <div class="dropdown" style="float:right;">
   <button class="dropbtn"><img src="static/images/user_icon.png" alt="Login Stuff" height="50px"></button>
   <div class="dropdown-content">
@@ -13,5 +13,6 @@
   {% if current_user.is_authenticated %}
   <a href="/logout">Logout</a>
   {% endif %}
+  </div>
   </div>
 </div>
