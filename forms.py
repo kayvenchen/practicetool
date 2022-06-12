@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, StringField, TextAreaField, FileField, DateField, TimeField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
+from wtforms.fields.html5 import DateField, TimeField
+
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(max=256)], render_kw={"placeholder": "Username"})
@@ -19,15 +21,15 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
 class DiaryForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": ""})
+    title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
     submit = SubmitField('Create')
 
 class EntryForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    date = DateField("Date", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
+    date = DateField("Date", format='%Y-%m-%d', validators=[DataRequired()])
     start_time = TimeField("Start Time", validators=[DataRequired()])
-    end_time = TimeField("Start Time", validators=[DataRequired()])
-    notes = TextAreaField("Notes", validators=[DataRequired()])
+    end_time = TimeField("End Time", validators=[DataRequired()])
+    notes = TextAreaField("Notes", validators=[DataRequired()], render_kw={"placeholder": "notes"})
     submit = SubmitField('Enter')
 
 

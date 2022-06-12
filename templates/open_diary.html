@@ -1,10 +1,14 @@
-AMONG US IN REAL LIFE SUS {diary.title}
-
-<form class="open_diary" method="post">
-  {{ form.csrf_token }}
-  {{ form.title }}
-  {{ form.date }}
-  {{ form.start_time }}
-  {{ form.end_time }}
-  {{ form.submit }}
-</form>
+{% extends 'layout.html' %} {% block content %}
+AMONG US IN REAL LIFE SUS {{diary.title}}
+<div id="wrapper">
+  <form class="open_diary" method="post">
+    {{ form.csrf_token }}
+    {{ form.title }}
+    {{ form.date }}
+    {{ form.start_time }}
+    {{ form.end_time }}
+    {{ form.notes }}
+    {{ form.submit }}
+  </form>
+</div>
+{% endblock %}

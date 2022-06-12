@@ -7,7 +7,7 @@
   <button type="button" class="create_diary" name="button">baka</button>
 
   {% for diary in diary %}
-  <button type="button" class="open_diary" name="button" href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</button>
+  <button type="button" class="open_diary" name="button"><a href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</a></button>
   {% endfor %}
-  {% endblock %}  
+  {% endblock %}
 </div>

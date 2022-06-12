@@ -41,13 +41,13 @@ def diary():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
     return render_template('diary_index.html', diary=diary)
 
-@app.route('/diary/<string:diary_id>')
-@login_required
-def open_diary(id):
-    form = EntryForm()
-    diary = models.Diary.query.filter_by(id=id).all()
-    return render_template('open_diary.html', diary=diary)
 
+@app.route('/diary/<string:diary_id>', methods=['GET', 'POST'])
+@login_required
+def open_diary(diary_id):
+    form = EntryForm()
+    diary = models.Diary.query.filter_by(id=diary_id).all()
+    return render_template('open_diary.html', diary=diary, form=form)
 
 @app.route('/create_diary', methods=['POST'])
 @login_required
