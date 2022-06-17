@@ -106,18 +106,38 @@ body {
 
 #diary_list {
   z-index: 1;
-  width: 25%;
   height: 100%;
   border: 1px solid black;
+  grid-area: diary_list;
 }
 
 #entry_list {
   z-index: 1;
-  width: 25%;
   height: 100%;
   border: 1px solid black;
+  grid-area: entry_list;
 }
 
-.Diary {
+#entry {
+  z-index: 1;
+  height: 100%;
+  border: 1px solid black;
+  grid-area: entry;
+}
 
+
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'diary_list entry_list entry entry';
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
 }
