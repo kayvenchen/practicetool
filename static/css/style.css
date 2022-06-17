@@ -17,6 +17,7 @@ body {
 #wrapper {
   position: relative;
   margin-top: 105px;
+  height: 100%
 }
 
 .dropbtn {
@@ -101,4 +102,22 @@ body {
   bottom: 10px;
   width: 100%;
   text-align: center;
+}
+
+#diary_list {
+  z-index: 1;
+  width: 25%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+#entry_list {
+  z-index: 1;
+  width: 25%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.Diary {
+
 }
