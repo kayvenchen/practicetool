@@ -23,16 +23,3 @@ class RegistrationForm(FlaskForm):
 class DiaryForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
     submit = SubmitField('Create')
-
-class EntryForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
-    date = DateField("Date", format='%Y-%m-%d', validators=[DataRequired()])
-    start_time = TimeField("Start Time", validators=[DataRequired()])
-    end_time = TimeField("End Time", validators=[DataRequired()])
-    notes = TextAreaField("Notes", validators=[DataRequired()], render_kw={"placeholder": "notes"})
-    submit = SubmitField('Enter')
-
-
-class ImageForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    file = FileField("File", validators=[DataRequired()])

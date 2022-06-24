@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_user, LoginManager, current_user, login_required
-from forms import LoginForm, RegistrationForm, DiaryForm, EntryForm
+from forms import LoginForm, RegistrationForm, DiaryForm
 import models
 from is_safe_url import is_safe_url
 from contextlib import contextmanager
@@ -42,25 +42,17 @@ def diary():
     return render_template('diary_index.html', diary=diary)
 
 
-@app.route('/diary/<string:diary_id>', methods=['GET', 'POST'])
-@login_required
-def open_diary(diary_id):
-    form = EntryForm()
-    diary = models.Diary.query.filter_by(id=diary_id).all()
-    return render_template('open_diary.html', diary=diary, form=form)
-
 @app.route('/create_diary', methods=['POST'])
 @login_required
 def create_diary():
-    if request.method == "POST":
-        form = DiaryForm()
-        if form.validate_on_submit():
-            create_diary = models.Diary(user_id=current_user, title=form.title.data)
-            print(diary)
-            db.session.add(diary)
-            db.session.commit()
-            return redirect(url_for('diary'))
-    return jsonify({'htmlresponse': render_template('create_diary.html', form=form)})
+    form = DiaryForm()
+    if form.validate_on_submit():
+        create_diary = models.Diary(user_id=current_user, title=form.title.data)
+        print(diary)
+        db.session.add(diary)
+        db.session.commit()
+        return redirect(url_for('diary'))
+    return render_template('diary_index.html', diary=diary)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

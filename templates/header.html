@@ -1,18 +1,22 @@
 <!-- header -->
 <div class="header">
 
-  practice tool
-  
-<div class="dropdown" style="float:right;">
-  <button class="dropbtn"><img src="static/images/user_icon.png" alt="Login Stuff" height="50px"></button>
-  <div class="dropdown-content">
-  {% if not current_user.is_authenticated %}
-  <a href="/login">Login</a>
-  <a href="/register">Register</a>
-  {% endif %}
-  {% if current_user.is_authenticated %}
-  <a href="/logout">Logout</a>
-  {% endif %}
-  </div>
-  </div>
+<!-- The topnav -->
+<div class="topnav">
+  <ul>
+    <li>practice tool</li>
+    <li><a href="/"><i class="fa-solid fa-gauge-high"></i></a></li>
+    <li><a href="{{url_for('diary')}}"><i class="fa-solid fa-book-open"></i></a></li>
+
+    <li style=float:right><div class="dropdown">
+      <button><i class="fa-solid fa-user"></i></button>
+      <div class="dropdown-content">
+        <a href="/">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div></li>
+
+
+  </ul>
+</div>
 </div>

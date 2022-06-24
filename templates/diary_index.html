@@ -3,31 +3,26 @@
 
 
 <div id="wrapper">
-  {% include 'search.html' %}
-  <button type="button" class="create_diary" name="button">Create baka</button>
+  <button type="button" class="create_diary" name="button"><i class="fa-solid fa-plus"></i></button>
   <div class="grid-container">
 
     <div id="diary_list">
       {% for diary in diary %}
       <div class="diary">
-          <a href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</a>
+          <a href="/">open {{diary.title}}</a>
       </div>
       {% endfor %}
     </div>
       <div id="entry_list">
         {% for diary in diary %}
         <div class="diary">
-            <a href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</a>
+            <a href="/">open {{diary.title}}</a>
         </div>
         {% endfor %}
         </div>
 
         <div id="entry">
-          {% for diary in diary %}
-          <div class="diary">
-              <a href="{{url_for('open_diary', diary_id=diary.id)}}">open {{diary.title}}</a>
-          </div>
-          {% endfor %}
+          baka
       </div>
 </div>
 </div>

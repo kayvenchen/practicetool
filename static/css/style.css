@@ -1,26 +1,46 @@
 body {
-  background-color: white;
+  background-color: #F3F3F3;
   color: black;
   border-color: #E9492B;
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   overflow-x: hidden;
+  padding: 0;
+  margin: 0;
 }
 
-/* header */
-.header {
-  font-size: 50px;
-  width: 100%;
-  position: fixed;
-  z-index: 1;
-}
-
-#wrapper {
+.topnav {
   position: relative;
-  margin-top: 105px;
-  height: 100%
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-.dropbtn {
+.topnav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f3f3f3;
+}
+
+.topnav li {
+  float: left;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+.topnav li a {
+  display: block;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+}
+
+.topnav li a:hover {
+  background-color: #F4F4F4;
+}
+
+button {
   background-color: inherit;
   font-size: 16px;
   margin-top: 0;
@@ -43,6 +63,7 @@ body {
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   font-size: 12px;
+  overflow: visible;
 }
 
 .dropdown-content a {
@@ -62,76 +83,10 @@ body {
   background-color: inherit;
 }
 
-.topnav {
-  position: relative;
-  width: 100%;
-  top: 65px;
-  height: 60px;
-  padding: 0;
-  margin: 0;
-}
-
-.topnav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
-
-.topnav li {
-  float: left;
-}
-
-.topnav li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.topnav li a:hover {
-  background-color: #111;
-}
-
-/* footer */
-.footer {
-  position: fixed;
-  left: 0;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-}
-
-#diary_list {
-  z-index: 1;
-  height: 100%;
-  border: 1px solid black;
-  grid-area: diary_list;
-}
-
-#entry_list {
-  z-index: 1;
-  height: 100%;
-  border: 1px solid black;
-  grid-area: entry_list;
-}
-
-#entry {
-  z-index: 1;
-  height: 100%;
-  border: 1px solid black;
-  grid-area: entry;
-}
-
-
-
 .grid-container {
   display: grid;
-  grid-template-areas: 'diary_list entry_list entry entry';
+  grid-template-areas: 'diary_list diary_list entry_list entry entry entry';
   gap: 10px;
-  background-color: #2196F3;
   padding: 10px;
 }
 
@@ -140,4 +95,14 @@ body {
   text-align: center;
   padding: 20px 0;
   font-size: 30px;
+}
+
+
+/* footer */
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
 }
