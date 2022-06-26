@@ -8,23 +8,33 @@
 
     <div id="diary_list">
       {% for diary in diary %}
-      <div class="diary">
-          <a href="/">open {{diary.title}}</a>
-      </div>
+          <button href="/" onclick="myFunction()">open {{diary.title}}</button>
       {% endfor %}
     </div>
+    <div id="diary">
       <div id="entry_list">
-        {% for diary in diary %}
-        <div class="diary">
-            <a href="/">open {{diary.title}}</a>
-        </div>
-        {% endfor %}
-        </div>
-
+      {% for diary in diary %}
+      {% if diary.id = entry.diary_id and diary.user_id = entry.user_id}
+        <a href="/">open {{diary.title}}</a>
+        {%endif%}
+              {% endfor %}</div>
         <div id="entry">
           baka
       </div>
+    </div>
 </div>
+
+
+<script>
+function myFunction() {
+  var x = document.getElementById("diary");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+</script>
 </div>
 
 {% endblock %}

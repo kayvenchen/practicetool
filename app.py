@@ -39,20 +39,8 @@ def index():
 @login_required
 def diary():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
-    return render_template('diary_index.html', diary=diary)
-
-
-@app.route('/create_diary', methods=['POST'])
-@login_required
-def create_diary():
-    form = DiaryForm()
-    if form.validate_on_submit():
-        create_diary = models.Diary(user_id=current_user, title=form.title.data)
-        print(diary)
-        db.session.add(diary)
-        db.session.commit()
-        return redirect(url_for('diary'))
-    return render_template('diary_index.html', diary=diary)
+    entry = models.Entry.query.filter_by(diary_id=1).all()
+    return render_template('diary_index.html', diary=diary, entry=entry)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

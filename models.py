@@ -32,11 +32,13 @@ class Entry(db.Model):
     __tablename__ = 'Entry'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
+    diary_id = db.Column(db.Integer, ForeignKey('Diary.id'), nullable=False)
     date = db.Column(db.Date)
     notes = db.Column(db.Text)
 
 class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     entry_id = db.Column(db.Integer, ForeignKey('Entry.id'), nullable=False)
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
