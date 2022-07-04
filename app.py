@@ -5,7 +5,7 @@ from forms import LoginForm, RegistrationForm, DiaryForm
 import models
 from is_safe_url import is_safe_url
 from contextlib import contextmanager
-
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -40,6 +40,8 @@ def index():
 def diary():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
     entry = models.Entry.query.filter_by(diary_id=1).all()
+    #date = entry.strftime("%A, %d %B, %Y")
+    print (entry, diary)
     return render_template('diary_index.html', diary=diary, entry=entry)
 
 @app.route('/login', methods=['GET', 'POST'])

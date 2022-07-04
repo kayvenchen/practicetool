@@ -3,31 +3,26 @@
 
 
 <div id="wrapper">
-  <button type="button" class="create_diary" name="button"><i class="fa-solid fa-plus"></i></button>
   <div class="grid-container">
 
     <div id="diary_list">
+      <button type="button" class="create_diary" name="button" id="diary_list"><i class="fa-solid fa-plus"></i> Create Diary</button>
       {% for diary in diary %}
-          <button href="/" onclick="myFunction()">open {{diary.title}}</button>
+          <button href="/" onclick="myFunction()" >open {{diary.title}}</button>
       {% endfor %}
     </div>
-    <div id="diary">
       <div id="entry_list">
-      {% for diary in diary %}
-      {% if diary.id = entry.diary_id and diary.user_id = entry.user_id}
-        <a href="/">open {{diary.title}}</a>
-        {%endif%}
-              {% endfor %}</div>
-        <div id="entry">
-          baka
-      </div>
+      {% for entry in entry %}
+
+          <a href="/entry/{{entry.id}}">{{entry.date}}</a>
+      {% endfor %}</div>
     </div>
 </div>
 
 
 <script>
 function myFunction() {
-  var x = document.getElementById("diary");
+  var x = document.getElementById("entry_list");
   if (x.style.display === "block") {
     x.style.display = "none";
   } else {

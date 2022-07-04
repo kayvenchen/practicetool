@@ -83,21 +83,6 @@ button {
   background-color: inherit;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-areas: 'diary_list diary_list entry_list entry entry entry';
-  gap: 10px;
-  padding: 10px;
-}
-
-.grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding: 20px 0;
-  font-size: 30px;
-}
-
-
 /* footer */
 .footer {
   position: fixed;
