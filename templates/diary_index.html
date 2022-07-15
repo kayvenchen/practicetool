@@ -1,35 +1,18 @@
 {% extends 'layout.html' %} {% block content %}
 
-
-
 <div id="wrapper">
   <div class="grid-container">
-
-    <div id="diary_list">
-      <button type="button" class="create_diary" name="button" id="diary_list"><i class="fa-solid fa-plus"></i> Create Diary</button>
-      {% for diary in diary %}
-          <button href="/" onclick="myFunction()" >open {{diary.title}}</button>
-      {% endfor %}
-    </div>
-      <div id="entry_list">
-      {% for entry in entry %}
-
-          <a href="/entry/{{entry.id}}">{{entry.date}}</a>
-      {% endfor %}</div>
-    </div>
+        <div class="item1">
+          <p>Contents</p>
+          <p><a href="{{url_for('create')}}">create diary</a></p>
+        </div>
+        {% for diary in diary %}
+        <div>{{diary.title}}</div>
+        {% endfor %}
 </div>
 
+    </div>
+  </div>
 
-<script>
-function myFunction() {
-  var x = document.getElementById("entry_list");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
-  }
-}
-</script>
-</div>
 
 {% endblock %}

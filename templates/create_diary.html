@@ -1,5 +1,10 @@
+{% extends 'layout.html' %} {% block content %}
+<center>
+  Create Diary
 <form class="create_diary" method="post">
   {{ form.csrf_token }}
   {{ form.title }}
-  {{ form.submit }}
+  <p>{{ form.submit }}</p>
 </form>
+</center>
+{% endblock %}

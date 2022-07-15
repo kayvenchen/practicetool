@@ -30,19 +30,24 @@ def unauthorized_callback():
     #return title == "My awesome website"
 #    pass
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    return render_template('index.html')
-
-@app.route('/diary', methods=['GET', 'POST'])
-@login_required
-def diary():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
-    entry = models.Entry.query.filter_by(diary_id=1).all()
-    #date = entry.strftime("%A, %d %B, %Y")
-    print (entry, diary)
-    return render_template('diary_index.html', diary=diary, entry=entry)
+    return render_template('diary_index.html', diary=diary)
+
+@app.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    form = DiaryForm()
+    if form.validate_on_submit():
+        diary = models.Diary(user_id=current_user.id, title=form.title.data)
+        db.session.add(diary)
+        db.session.commit()
+        flash('Created new Diary')
+        return redirect(url_for('index'))
+    return render_template('create_diary.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
