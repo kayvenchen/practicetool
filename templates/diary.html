@@ -1,0 +1,13 @@
+{% extends 'layout.html' %} {% block content %}
+
+AMONG US IN REAL LIFE SUS
+
+{% for entry in entry%}
+  <p>{{entry.date}} {{entry.notes}}</p>
+{% endfor %}
+
+{% for activity in entry.activities %}
+<p>{{activity.start_time}} {{activity.end_time}}</p>
+{% endfor %}
+
+{% endblock %}

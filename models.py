@@ -4,6 +4,8 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from sqlalchemy.orm import declarative_base, relationship
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'User'
@@ -28,6 +30,8 @@ class Diary(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     title = db.Column(db.String)
 
+    entries = relationship('Entry', back_populates='diary')
+
 class Entry(db.Model):
     __tablename__ = 'Entry'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -36,9 +40,15 @@ class Entry(db.Model):
     date = db.Column(db.Date)
     notes = db.Column(db.Text)
 
+    diary = relationship('Diary', back_populates='entries')
+    activities = relationship('Activity', back_populates='entry')
+
+
 class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     entry_id = db.Column(db.Integer, ForeignKey('Entry.id'), nullable=False)
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
+
+    entry = relationship('Entry', back_populates='activities')
