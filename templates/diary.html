@@ -1,13 +1,18 @@
 {% extends 'layout.html' %} {% block content %}
 
-AMONG US IN REAL LIFE SUS
 
-{% for entry in entry%}
-  <p>{{entry.date}} {{entry.notes}}</p>
-{% endfor %}
-
-{% for activity in entry.activities %}
-<p>{{activity.start_time}} {{activity.end_time}}</p>
-{% endfor %}
+{% for diary in diary%}
+Diary: {{diary.title}}
+<div class="grid-container">
+    {% for entry in diary.entries %}
+  <div class="entry">
+    <p>{{entry.date}} {{entry.notes}}</p>
+    {% for activity in entry.activities %}
+    <p>{{activity.start_time}} {{activity.end_time}}</p>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {% endfor %}
+</div>
 
 {% endblock %}

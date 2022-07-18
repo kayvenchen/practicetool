@@ -51,8 +51,8 @@ def create():
 @app.route('/diary/<int:id>', methods=['GET', 'POST'])
 @login_required
 def diary(id):
-    entry = models.Entry.query.filter_by(user_id=current_user.id, diary_id=id).all()
-    return render_template('diary.html', entry=entry)
+    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
+    return render_template('diary.html', diary=diary)
 
 
 @app.route('/login', methods=['GET', 'POST'])
