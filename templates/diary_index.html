@@ -7,7 +7,7 @@
           <p><a href="{{url_for('create')}}">create diary</a></p>
         </div>
         {% for diary in diary %}
-        <div>{{diary.title}}</div>
+        <div><a href="{{url_for('diary', id=diary.id)}}">{{diary.title}}</a></div>
         {% endfor %}
 </div>
 

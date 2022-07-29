@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_user, LoginManager, current_user, login_required
 from forms import LoginForm, RegistrationForm, DiaryForm
 import models
-from is_safe_url import is_safe_url
 from contextlib import contextmanager
 from datetime import datetime
 
@@ -28,7 +27,7 @@ def unauthorized_callback():
 #@app.context_processor
 #def context_processor():
     #return title == "My awesome website"
-#    pass
+#    passi
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
