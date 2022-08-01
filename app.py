@@ -53,6 +53,12 @@ def diary(id):
     diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
     return render_template('diary.html', diary=diary)
 
+@app.route('/entry/<int:id>', methods=['GET', 'POST'])
+@login_required
+def entry(id):
+    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
+    return render_template('entry.html', entry=entry)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

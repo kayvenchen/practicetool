@@ -1,0 +1,15 @@
+{% extends 'layout.html' %} {% block content %}
+
+<div class="entry">
+
+<a href="{{url_for('diary', id=entry.diary.id)}}">back</a>
+
+<p>{{entry.date.strftime("%d %B, %Y")}}</p>
+{% for activity in entry.activities %}
+<p>hours: {{activity.end_time}} {{ activity.start_time}}</p>
+{% endfor %}
+notes:
+{{entry.notes}}
+</div>
+
+{% endblock %}
