@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, StringField, TextAreaField, FileField, DateField, TimeField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
 from wtforms.fields import DateField, TimeField
+from flask_ckeditor import CKEditorField
 
 
 class LoginForm(FlaskForm):
@@ -23,3 +24,7 @@ class RegistrationForm(FlaskForm):
 class DiaryForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
     submit = SubmitField('Create')
+
+class EntryForm(FlaskForm):
+    notes = CKEditorField("Notes")
+    submit = SubmitField('Submit')

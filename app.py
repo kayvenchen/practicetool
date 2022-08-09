@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_user, LoginManager, current_user, login_required
-from forms import LoginForm, RegistrationForm, DiaryForm
+from forms import LoginForm, RegistrationForm, DiaryForm, EntryForm
 import models
 from contextlib import contextmanager
 from datetime import datetime
+from flask_ckeditor import CKEditor
 
 app = Flask(__name__)
 
@@ -15,6 +16,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+ckeditor = CKEditor(app)
 
 @login_manager.user_loader
 def load_user(id):
@@ -59,6 +62,17 @@ def entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
     return render_template('entry.html', entry=entry)
 
+@app.route('/edit_entry/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_entry(id):
+    form = EntryForm()
+    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
+    form.notes.data = entry.notes
+    if form.validate_on_submit():
+        new_entry = models.Entry(user_id=current_user.id, id=id notes=form.notes.data)
+        db.session.update(new_entry)
+        db.session.commit()
+    return render_template('open_diary.html', form=form, entry=entry)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
