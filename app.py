@@ -69,7 +69,7 @@ def edit_entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
     form.notes.data = entry.notes
     if form.validate_on_submit():
-        new_entry = models.Entry(user_id=current_user.id, id=id notes=form.notes.data)
+        new_entry = models.Entry(user_id=current_user.id, id=id, notes=form.notes.data)
         db.session.update(new_entry)
         db.session.commit()
     return render_template('open_diary.html', form=form, entry=entry)

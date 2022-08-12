@@ -6,9 +6,9 @@ Diary: {{diary.title}}
 <div class="grid-container">
     {% for entry in diary.entries %}
   <div class="entry">
-    <p><a href="{{url_for('entry', id=entry.id)}}">{{entry.date}}</a></p>
+    <p><a href="{{url_for('entry', id=entry.id)}}">{{entry.title}}</a></p>
     {% for activity in entry.activities %}
-    <p>{{activity.start_time}} {{activity.end_time}}</p>
+    <p>hours: {{(activity.start_time - activity.end_time).days}} days</p>
     {% endfor %}
   </div>
   {% endfor %}

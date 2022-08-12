@@ -37,7 +37,7 @@ class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     diary_id = db.Column(db.Integer, ForeignKey('Diary.id'), nullable=False)
-    date = db.Column(db.Date)
+    title = db.Column(db.Text)
     notes = db.Column(db.Text)
 
     diary = relationship('Diary', back_populates='entries')
@@ -48,7 +48,7 @@ class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     entry_id = db.Column(db.Integer, ForeignKey('Entry.id'), nullable=False)
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    start_time = db.Column(db.DateTime)
+    end_time = db.Column(db.DateTime)
 
     entry = relationship('Entry', back_populates='activities')
