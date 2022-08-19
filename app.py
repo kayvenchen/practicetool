@@ -30,7 +30,7 @@ def unauthorized_callback():
 #@app.context_processor
 #def context_processor():
     #return title == "My awesome website"
-#    passi
+#    pass
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -67,11 +67,11 @@ def entry(id):
 def edit_entry(id):
     form = EntryForm()
     entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
-    form.notes.data = entry.notes
     if form.validate_on_submit():
-        new_entry = models.Entry(user_id=current_user.id, id=id, notes=form.notes.data)
-        db.session.update(new_entry)
+        entry.notes = form.notes.data
+        db.session.merge(entry)
         db.session.commit()
+    form.notes.data = entry.notes
     return render_template('open_diary.html', form=form, entry=entry)
 
 @app.route('/login', methods=['GET', 'POST'])
