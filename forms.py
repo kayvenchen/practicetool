@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, StringField, TextAreaField, FileField, DateField, TimeField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, StringField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
-from wtforms.fields import DateField, TimeField
+from wtforms.fields.html5 import DateField, TimeField
 from flask_ckeditor import CKEditorField
 
 
@@ -22,9 +22,15 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
 class DiaryForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
+    title = StringField('Title', validators=[DataRequired()], render_kw={"placeholder": "Title"})
     submit = SubmitField('Create')
 
 class EntryForm(FlaskForm):
-    notes = CKEditorField("Notes")
+    start_time = TimeField('Start Time', format='%H:%M')
+    end_time = TimeField('End Time', format='%H:%M')
+    notes = CKEditorField('Notes')
     submit = SubmitField('Submit')
+
+    @property
+    def end_time(self):
+        return self.start_time + self.duration

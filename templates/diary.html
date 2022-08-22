@@ -3,12 +3,13 @@
 
 {% for diary in diary%}
 Diary: {{diary.title}}
+<a href="{{url_for('delete_diary', id=diary.id)}}">delete this diary</a>
 <div class="grid-container">
     {% for entry in diary.entries %}
   <div class="entry">
-    <p><a href="{{url_for('entry', id=entry.id)}}">{{entry.title}}</a></p>
+    <p><a href="{{url_for('entry', id=entry.id)}}">{{entry.date}}</a></p>
     {% for activity in entry.activities %}
-    <p>hours: {{(activity.start_time - activity.end_time).days}} days</p>
+    <p>hours: {{activity.start_time}} {{activity.end_time}}</p>
     {% endfor %}
   </div>
   {% endfor %}

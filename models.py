@@ -30,25 +30,25 @@ class Diary(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     title = db.Column(db.String)
 
-    entries = relationship('Entry', back_populates='diary')
+    entries = relationship('Entry', back_populates='diary', cascade="all, delete-orphan")
 
 class Entry(db.Model):
     __tablename__ = 'Entry'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     diary_id = db.Column(db.Integer, ForeignKey('Diary.id'), nullable=False)
-    title = db.Column(db.Text)
+    date = db.Column(db.Date)
     notes = db.Column(db.Text)
 
     diary = relationship('Diary', back_populates='entries')
-    activities = relationship('Activity', back_populates='entry')
+    activities = relationship('Activity', back_populates='entry', cascade="all, delete-orphan")
 
 
 class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     entry_id = db.Column(db.Integer, ForeignKey('Entry.id'), nullable=False)
-    start_time = db.Column(db.DateTime)
-    end_time = db.Column(db.DateTime)
+    start_time = db.Column(db.Time)
+    end_time = db.Column(db.Time)
 
     entry = relationship('Entry', back_populates='activities')

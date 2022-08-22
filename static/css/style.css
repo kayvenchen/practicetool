@@ -102,6 +102,13 @@ button {
   grid-area: 1 / 1 / 4 / 4;
 }
 
+.entry_info {
+  grid-area: 1 / 1 / 20 / 4;
+}
+
+.text-editor {
+  grid-area: 1 / 4 / 20 / 7;
+}
 /* footer */
 .footer {
   position: fixed;

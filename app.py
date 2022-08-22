@@ -38,9 +38,15 @@ def index():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
     return render_template('diary_index.html', diary=diary)
 
-@app.route('/create', methods=['GET', 'POST'])
+@app.route('/diary/<int:id>', methods=['GET', 'POST'])
 @login_required
-def create():
+def diary(id):
+    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
+    return render_template('diary.html', diary=diary)
+
+@app.route('/diary/create', methods=['GET', 'POST'])
+@login_required
+def create_diary():
     form = DiaryForm()
     if form.validate_on_submit():
         diary = models.Diary(user_id=current_user.id, title=form.title.data)
@@ -50,29 +56,41 @@ def create():
         return redirect(url_for('index'))
     return render_template('create_diary.html', form=form)
 
-@app.route('/diary/<int:id>', methods=['GET', 'POST'])
-@login_required
-def diary(id):
-    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
-    return render_template('diary.html', diary=diary)
+@app.route('/diary/delete/<int:id>')
+def delete_diary(id):
+    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).first()
+    local = db.session.merge(diary)
+    db.session.delete(local)
+    db.session.commit()
+    #return a message
+    flash("entry post was deleted")
+    return redirect(url_for('index'))
+
 
 @app.route('/entry/<int:id>', methods=['GET', 'POST'])
 @login_required
 def entry(id):
-    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
-    return render_template('entry.html', entry=entry)
-
-@app.route('/edit_entry/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_entry(id):
     form = EntryForm()
-    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
+    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first_or_404()
     if form.validate_on_submit():
         entry.notes = form.notes.data
         db.session.merge(entry)
         db.session.commit()
     form.notes.data = entry.notes
-    return render_template('open_diary.html', form=form, entry=entry)
+    return render_template('entry.html', entry=entry, form=form)
+
+@app.route('/entry/delete/<int:id>')
+def delete_entry(id):
+    entry_to_delete = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
+    try:
+        dv.session.delete(entry_to_delete)
+        db.session.commit()
+        #return a message
+        flash("entry post was deleted")
+        return redirect(url_for('diary', id=entry_to_delete.diary.id))
+    except:
+        flash("whoops there was aporlbme deleting this entry")
+        return redirect(url_for('diary', id=entry_to_delete.diary.id))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
