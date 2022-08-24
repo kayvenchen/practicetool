@@ -38,11 +38,13 @@ def index():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
     return render_template('diary_index.html', diary=diary)
 
+
 @app.route('/diary/<int:id>', methods=['GET', 'POST'])
 @login_required
 def diary(id):
     diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
     return render_template('diary.html', diary=diary)
+
 
 @app.route('/diary/create', methods=['GET', 'POST'])
 @login_required
@@ -55,6 +57,21 @@ def create_diary():
         flash('Created new Diary')
         return redirect(url_for('index'))
     return render_template('create_diary.html', form=form)
+
+
+@app.route('/diary/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_diary(id):
+    form = DiaryForm()
+    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).first_or_404()
+    if form.validate_on_submit():
+        diary.title = form.title.data
+        db.session.merge(diary)
+        db.session.commit()
+        flash('edited new diary name')
+        return redirect(url_for('diary', id=diary.id))
+    return render_template('create_diary.html', form=form)
+
 
 @app.route('/diary/delete/<int:id>')
 def delete_diary(id):
@@ -79,6 +96,19 @@ def entry(id):
     form.notes.data = entry.notes
     return render_template('entry.html', entry=entry, form=form)
 
+@app.route('/entry/<int:id>', methods=['GET', 'POST'])
+@login_required
+def create_entry(id):
+    form = EntryForm()
+    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first_or_404()
+    if form.validate_on_submit():
+        entry.notes = form.notes.data
+        db.session.merge(entry)
+        db.session.commit()
+    form.notes.data = entry.notes
+    return render_template('entry.html', entry=entry, form=form)
+
+
 @app.route('/entry/delete/<int:id>')
 def delete_entry(id):
     entry_to_delete = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
@@ -91,6 +121,7 @@ def delete_entry(id):
     except:
         flash("whoops there was aporlbme deleting this entry")
         return redirect(url_for('diary', id=entry_to_delete.diary.id))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -107,6 +138,7 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -120,6 +152,7 @@ def register():
         flash('You are now a registered user.')
         return redirect(url_for('login'))
     return render_template("register.html", form=form)
+
 
 @app.route("/logout")
 @login_required
