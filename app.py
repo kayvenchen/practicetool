@@ -96,31 +96,22 @@ def entry(id):
     form.notes.data = entry.notes
     return render_template('entry.html', entry=entry, form=form)
 
-@app.route('/entry/<int:id>', methods=['GET', 'POST'])
+@app.route('/entry/create/<int:id>', methods=['GET', 'POST'])
 @login_required
 def create_entry(id):
-    form = EntryForm()
-    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first_or_404()
-    if form.validate_on_submit():
-        entry.notes = form.notes.data
-        db.session.merge(entry)
-        db.session.commit()
-    form.notes.data = entry.notes
-    return render_template('entry.html', entry=entry, form=form)
+    entry = models.Entry(user_id=current_user.id, diary_id=id)
+    db.session.add(entry)
+    db.session.commit()
+    return redirect(url_for('entry', id=entry.id))
 
 
 @app.route('/entry/delete/<int:id>')
 def delete_entry(id):
-    entry_to_delete = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
-    try:
-        dv.session.delete(entry_to_delete)
-        db.session.commit()
-        #return a message
-        flash("entry post was deleted")
-        return redirect(url_for('diary', id=entry_to_delete.diary.id))
-    except:
-        flash("whoops there was aporlbme deleting this entry")
-        return redirect(url_for('diary', id=entry_to_delete.diary.id))
+    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first_or_404()
+    local = db.session.merge(entry)
+    db.session.delete(local)
+    db.session.commit()
+    return redirect(url_for('diary', id=entry.diary.id))
 
 
 @app.route('/login', methods=['GET', 'POST'])

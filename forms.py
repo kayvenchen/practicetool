@@ -26,11 +26,5 @@ class DiaryForm(FlaskForm):
     submit = SubmitField('Create')
 
 class EntryForm(FlaskForm):
-    start_time = TimeField('Start Time', format='%H:%M')
-    end_time = TimeField('End Time', format='%H:%M')
     notes = CKEditorField('Notes')
     submit = SubmitField('Submit')
-
-    @property
-    def end_time(self):
-        return self.start_time + self.duration

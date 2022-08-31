@@ -3,17 +3,17 @@
 <div class="entry">
 
 <a href="{{url_for('diary', id=entry.diary.id)}}">back</a>
+<a href="{{url_for('delete_entry', id=entry.id)}}">delete this entry</a>
+
 <form class="entry" method="post">
   {{ form.csrf_token }}
 <div class="grid-container">
   <div class="entry_info">
   <p>{{entry.date}}</p>
-  {% for activity in entry.activities %}
-  <p>hours of practice: {{activity.end_time}} {{ activity.start_time}}</p>
-  {% endfor %}
+{% for tag in entry.tags %}
+  <p>{{tag.name}}</p>
+{% endfor%}
 
-  {{ form.start_time }}
-  {{ form.end_time }}
   </div>
 
   <div class="text-editor">

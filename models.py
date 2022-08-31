@@ -32,23 +32,26 @@ class Diary(db.Model):
 
     entries = relationship('Entry', back_populates='diary', cascade="all, delete-orphan")
 
+EntryTag = db.Table('EntryTag', db.Model.metadata,
+    db.Column('entry_id', db.Integer, db.ForeignKey('Entry.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('Tag.id')))
+
+
 class Entry(db.Model):
     __tablename__ = 'Entry'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     diary_id = db.Column(db.Integer, ForeignKey('Diary.id'), nullable=False)
-    date = db.Column(db.Date)
+    date = db.Column(db.Date, default=datetime.today().date())
     notes = db.Column(db.Text)
 
     diary = relationship('Diary', back_populates='entries')
-    activities = relationship('Activity', back_populates='entry', cascade="all, delete-orphan")
+    tags = relationship('Tag', secondary=EntryTag, back_populates='entries')
 
 
-class Activity(db.Model):
+class Tag(db.Model):
+    __tablename__ = 'Tag'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
-    entry_id = db.Column(db.Integer, ForeignKey('Entry.id'), nullable=False)
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    name = db.Column(db.String)
 
-    entry = relationship('Entry', back_populates='activities')
+    entries = relationship('Entry', secondary=EntryTag, back_populates='tags')
