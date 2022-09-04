@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-login
+flask-mail
+WTForms
+Werkzeug
+wtforms-validators
+flask-ckeditor
+email-validator
