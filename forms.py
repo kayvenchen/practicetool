@@ -28,3 +28,7 @@ class DiaryForm(FlaskForm):
 class EntryForm(FlaskForm):
     notes = CKEditorField('Notes')
     submit = SubmitField('Submit')
+
+class EditTagForm(FlaskForm):
+    option = BooleanField('')
+    submit = SubmitField('Submit')

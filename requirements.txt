@@ -7,3 +7,4 @@ Werkzeug
 wtforms-validators
 flask-ckeditor
 email-validator
+sqlalchemy.orm
