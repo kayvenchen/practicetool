@@ -120,21 +120,18 @@ def add_tag(id):
         name = form.name.data.lower().strip()
         tag = models.Tag.query.filter_by(user_id=current_user.id, name=name).first()
         entry = models.Entry(user_id=current_user.id, id=id)
-        if tag is not None:
-            tag_to_add = models.Tag(user_id=current_user.id, name=name)
-            local = db.session.merge(tag)
-            entry.tags.append(local)
-            db.session.commit()
-            print(tag)
-            return redirect(url_for('entry', id=entry.id))
-        else:
+        print(entry)
+        if tag is None:
             tag_to_add = models.Tag(user_id=current_user.id, name=name)
             local = db.session.merge(tag_to_add)
-            entry.tags.append(local)
             db.session.add(local)
-            db.session.commit()
             print(tag_to_add)
-            return redirect(url_for('entry', id=entry.id))
+            db.session.commit()
+        entry.tags.append(tag)
+        db.session.merge(entry)
+        db.session.commit()
+        return redirect(url_for('entry', id=entry.id))
+
     return render_template('create_tag.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
