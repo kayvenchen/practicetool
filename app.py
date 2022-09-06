@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import logout_user, login_user, LoginManager, current_user, login_required
-from forms import LoginForm, RegistrationForm, DiaryForm, EntryForm
+from forms import LoginForm, RegistrationForm, DiaryForm, EntryForm, AddTagForm
 import models
 from contextlib import contextmanager
 from datetime import datetime
@@ -104,7 +104,6 @@ def create_entry(id):
     db.session.commit()
     return redirect(url_for('entry', id=entry.id))
 
-
 @app.route('/entry/delete/<int:id>')
 def delete_entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first_or_404()
@@ -113,6 +112,30 @@ def delete_entry(id):
     db.session.commit()
     return redirect(url_for('diary', id=entry.diary.id))
 
+@app.route('/entry/<int:id>/tag/add/', methods=['GET', 'POST'])
+@login_required
+def add_tag(id):
+    form = AddTagForm()
+    if form.validate_on_submit():
+        name = form.name.data.lower().strip()
+        tag = models.Tag.query.filter_by(user_id=current_user.id, name=name).first()
+        entry = models.Entry(user_id=current_user.id, id=id)
+        if tag is not None:
+            tag_to_add = models.Tag(user_id=current_user.id, name=name)
+            local = db.session.merge(tag)
+            entry.tags.append(local)
+            db.session.commit()
+            print(tag)
+            return redirect(url_for('entry', id=entry.id))
+        else:
+            tag_to_add = models.Tag(user_id=current_user.id, name=name)
+            local = db.session.merge(tag_to_add)
+            entry.tags.append(local)
+            db.session.add(local)
+            db.session.commit()
+            print(tag_to_add)
+            return redirect(url_for('entry', id=entry.id))
+    return render_template('create_tag.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

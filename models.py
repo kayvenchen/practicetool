@@ -52,6 +52,7 @@ class Entry(db.Model):
 class Tag(db.Model):
     __tablename__ = 'Tag'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     name = db.Column(db.String)
 
     entries = relationship('Entry', secondary=EntryTag, back_populates='tags')

@@ -1,0 +1,10 @@
+{% extends 'layout.html' %} {% block content %}
+<center>
+  add a tag
+<form class="add_tag" method="post">
+  {{ form.csrf_token }}
+  {{ form.name }}
+  <p>{{ form.submit }}</p>
+</form>
+</center>
+{% endblock %}

@@ -29,6 +29,6 @@ class EntryForm(FlaskForm):
     notes = CKEditorField('Notes')
     submit = SubmitField('Submit')
 
-class EditTagForm(FlaskForm):
-    option = BooleanField('')
+class AddTagForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()], render_kw={"placeholder": "Tag"})
     submit = SubmitField('Submit')
