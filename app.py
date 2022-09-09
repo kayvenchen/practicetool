@@ -27,10 +27,6 @@ def load_user(id):
 def unauthorized_callback():
     return redirect(url_for('login'))
 
-#@app.context_processor
-#def context_processor():
-    #return title == "My awesome website"
-#    pass
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -119,20 +115,37 @@ def add_tag(id):
     if form.validate_on_submit():
         name = form.name.data.lower().strip()
         tag = models.Tag.query.filter_by(user_id=current_user.id, name=name).first()
-        entry = models.Entry(user_id=current_user.id, id=id)
-        print(entry)
+        entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
         if tag is None:
             tag_to_add = models.Tag(user_id=current_user.id, name=name)
             local = db.session.merge(tag_to_add)
             db.session.add(local)
-            print(tag_to_add)
             db.session.commit()
         entry.tags.append(tag)
         db.session.merge(entry)
         db.session.commit()
         return redirect(url_for('entry', id=entry.id))
-
     return render_template('create_tag.html', form=form)
+
+@app.route('/entry/<int:id>/tag/add/', methods=['GET', 'POST'])
+@login_required
+def add_tag(id):
+    form = AddTagForm()
+    if form.validate_on_submit():
+        name = form.name.data.lower().strip()
+        tag = models.Tag.query.filter_by(user_id=current_user.id, name=name).first()
+        entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
+        if tag is None:
+            tag_to_add = models.Tag(user_id=current_user.id, name=name)
+            local = db.session.merge(tag_to_add)
+            db.session.add(local)
+            db.session.commit()
+        entry.tags.append(tag)
+        db.session.merge(entry)
+        db.session.commit()
+        return redirect(url_for('entry', id=entry.id))
+    return render_template('create_tag.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

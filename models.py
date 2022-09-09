@@ -32,6 +32,9 @@ class Diary(db.Model):
 
     entries = relationship('Entry', back_populates='diary', cascade="all, delete-orphan")
 
+    def __repr__(self):
+        return '<Diary{}>'.format(self.title)
+
 EntryTag = db.Table('EntryTag', db.Model.metadata,
     db.Column('entry_id', db.Integer, db.ForeignKey('Entry.id')),
     db.Column('tag_id', db.Integer, db.ForeignKey('Tag.id')))
@@ -48,6 +51,9 @@ class Entry(db.Model):
     diary = relationship('Diary', back_populates='entries')
     tags = relationship('Tag', secondary=EntryTag, back_populates='entries')
 
+    def __repr__(self):
+        return '<Entry{}>'.format(self.date)
+
 
 class Tag(db.Model):
     __tablename__ = 'Tag'
@@ -56,3 +62,6 @@ class Tag(db.Model):
     name = db.Column(db.String)
 
     entries = relationship('Entry', secondary=EntryTag, back_populates='tags')
+
+    def __repr__(self):
+        return '<Tag{}>'.format(self.name)
