@@ -5,6 +5,9 @@
 Diary: {{diary.title}}
 <a href="{{url_for('delete_diary', id=diary.id)}}">delete this diary</a>
 <a href="{{url_for('edit_diary', id=diary.id)}}">edit title</a>
+<a href="{{url_for('create_entry', id=diary.id)}}">create</a>
+
+
 
 <div class="grid-container">
     {% for entry in diary.entries %}

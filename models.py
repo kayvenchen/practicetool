@@ -14,11 +14,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.Text, nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+    def set_password(self, password_hash):
+        self.password_hash = generate_password_hash(password_hash)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    def check_password(self, password_hash):
+        return check_password_hash(self.password_hash, password_hash)
 
     def __repr__(self):
         return '<User{}>'.format(self.username)
