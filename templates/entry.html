@@ -12,7 +12,7 @@
   <div class="entry_info">
   <p>{{entry.date}}</p>
 {% for tag in entry.tags %}
-  <p>{{tag.name}}</p>
+  <p>{{tag.name}} <a href="{{url_for('remove_tag', id=tag.id)}}">x</a></p>
 {% endfor%}
 
   </div>

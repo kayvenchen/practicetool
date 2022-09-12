@@ -39,6 +39,8 @@ def index():
 @login_required
 def diary(id):
     diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
+    if len(diary) is 0:
+        abort(404)
     return render_template('diary.html', diary=diary)
 
 
@@ -71,7 +73,7 @@ def edit_diary(id):
 
 @app.route('/diary/delete/<int:id>')
 def delete_diary(id):
-    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).first()
+    diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).first_or_404()
     local = db.session.merge(diary)
     db.session.delete(local)
     db.session.commit()
@@ -127,24 +129,14 @@ def add_tag(id):
         return redirect(url_for('entry', id=entry.id))
     return render_template('create_tag.html', form=form)
 
-@app.route('/entry/<int:id>/tag/remove/', methods=['GET', 'POST'])
+@app.route('/tag/remove/<int:id>', methods=['GET', 'POST'])
 @login_required
 def remove_tag(id):
-    form = AddTagForm()
-    if form.validate_on_submit():
-        name = form.name.data.lower().strip()
-        tag = models.Tag.query.filter_by(user_id=current_user.id, name=name).first()
-        entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first()
-        if tag is None:
-            tag_to_add = models.Tag(user_id=current_user.id, name=name)
-            local = db.session.merge(tag_to_add)
-            db.session.add(local)
-            db.session.commit()
-        entry.tags.append(tag)
-        db.session.merge(entry)
-        db.session.commit()
-        return redirect(url_for('entry', id=entry.id))
-    return render_template('create_tag.html', form=form)
+    tag = models.Tag.query.filter_by(user_id=current_user.id, id=id).first_or_404()
+    tag.entries = []
+    db.session.merge(tag)
+    db.session.commit()
+    return redirect(url_for('entry', id=10))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -184,6 +176,22 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+# error handler for a 404 error (returns 404.html instead of standard 404 page)
+@app.errorhandler(404)
+def error404(error):
+    return render_template('404.html', title='Error'), 404
+
+
+# error handler for a 500 error (returns 500.html instead of standard 500 page)
+@app.errorhandler(500)
+def error500(error):
+    return render_template("500.html")
+
+
+# error handler for a 401 error (returns 401.html instead of standard 401 page)
+@app.errorhandler(401)
+def error401(error):
+    return render_template("401.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
