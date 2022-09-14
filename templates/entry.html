@@ -2,31 +2,28 @@
 
 <div class="entry">
 
-<a href="{{url_for('diary', id=entry.diary.id)}}">back</a>
-<a href="{{url_for('delete_entry', id=entry.id)}}">delete this entry</a>
-<a href="{{url_for('add_tag', id=entry.id)}}">add tags</a>
-
+  <div class="column side"></div>
+  <div class="column middle">
+    <p>
+      <i class="fa-solid fa-arrow-right"></i>
+      <a href="{{url_for('diary', id=entry.diary.id)}}">{{entry.diary.title}}</a>
+      <i class="fa-solid fa-arrow-right"></i>
+      <a href="{{url_for('entry', id=entry.id)}}">{{entry.date}}
+    </p>
+<a href="{{url_for('add_tag', id=entry.id)}}" class="button"><i class="fa-solid fa-plus"></i> Add Tags</a>
+<a href="{{url_for('delete_entry', id=entry.id)}}" class="button" style="float:right"><i class="fa-solid fa-xmark"></i> Delete This Entry</a>
+<p>
+{% for tag in entry.tags %}
+  <span><a href="{{url_for('remove_tag', id=entry.id, tid=tag.id)}}">{{tag.name}}</a></span>
+{% endfor%}
+</p>
 <form class="entry" method="post">
   {{ form.csrf_token }}
-<div class="grid-container">
-  <div class="entry_info">
-  <p>{{entry.date}}</p>
-{% for tag in entry.tags %}
-  <p>{{tag.name}} <a href="{{url_for('remove_tag', id=tag.id)}}">x</a></p>
-{% endfor%}
-
-  </div>
-
   <div class="text-editor">
-
     {{ form.notes }}
-
-
-</div>
-</div>
-{{ form.submit }}
+  </div>
+{{ form.submit(class="button", style="float:right") }}
 </form>
-
 </div>
-
+</div>
 {% endblock %}

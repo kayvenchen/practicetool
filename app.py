@@ -39,7 +39,7 @@ def index():
 @login_required
 def diary(id):
     diary = models.Diary.query.filter_by(user_id=current_user.id, id=id).all()
-    if len(diary) is 0:
+    if len(diary) == 0:
         abort(404)
     return render_template('diary.html', diary=diary)
 
@@ -129,14 +129,15 @@ def add_tag(id):
         return redirect(url_for('entry', id=entry.id))
     return render_template('create_tag.html', form=form)
 
-@app.route('/tag/remove/<int:id>', methods=['GET', 'POST'])
+@app.route('/entry/<int:id>/tag/remove/<int:tid>', methods=['GET', 'POST'])
 @login_required
-def remove_tag(id):
-    tag = models.Tag.query.filter_by(user_id=current_user.id, id=id).first_or_404()
-    tag.entries = []
-    db.session.merge(tag)
+def remove_tag(id, tid):
+    entry = models.Entry.query.filter_by(user_id=current_user.id, id=id).first_or_404()
+    tag = models.Tag.query.filter_by(user_id=current_user.id, id=tid).first_or_404()
+    entry.tags.remove(tag)
+    db.session.merge(entry)
     db.session.commit()
-    return redirect(url_for('entry', id=10))
+    return redirect(url_for('entry', id=entry.id))
 
 
 @app.route('/login', methods=['GET', 'POST'])

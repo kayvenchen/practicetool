@@ -8,6 +8,11 @@ body {
   margin: 0;
 }
 
+a {
+  color: blue;
+  text-decoration: none; /* no underline */
+}
+
 .topnav {
   position: relative;
   width: 100%;
@@ -37,78 +42,66 @@ body {
 }
 
 .topnav li a:hover {
-  background-color: #F4F4F4;
+  background-color: #ddd;
 }
 
-button {
-  background-color: inherit;
-  font-size: 16px;
-  margin-top: 0;
-  border: none;
-  cursor: pointer;
-}
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-  margin-top: 0px;
-}
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  font-size: 12px;
-  overflow: visible;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1;}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: inherit;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto auto;
-  gap: 10px;
-  background-color: #2196F3;
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
   padding: 10px;
 }
 
-.grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
+/* Left and right column */
+.column.side {
+  width: 25%;
+}
+
+/* Middle column */
+.column.middle {
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column.side, .column.middle {
+    width: 100%;
+  }
+}
+
+.container {
+  border: 1px hidden;
+  padding: 0;
   text-align: center;
-  padding: 20px 0;
-  font-size: 30px;
+  overflow-y: auto;
+  font-size: 36px;
+  height: 100%;
+  overflow: hidden;
 }
 
-.item1 {
-  grid-area: 1 / 1 / 4 / 4;
+.button {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px 0px;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-.entry_info {
-  grid-area: 1 / 1 / 20 / 4;
-}
 
-.text-editor {
-  grid-area: 1 / 4 / 20 / 7;
-}
 /* footer */
 .footer {
   position: fixed;
@@ -116,4 +109,8 @@ button {
   bottom: 10px;
   width: 100%;
   text-align: center;
+}
+
+#Submit {
+
 }

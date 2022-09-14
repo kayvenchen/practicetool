@@ -22,13 +22,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
 class DiaryForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()], render_kw={"placeholder": "Title"})
+    title = StringField('Title', validators=[DataRequired(), Length(max=36)], render_kw={"placeholder": "Title"})
     submit = SubmitField('Create')
 
 class EntryForm(FlaskForm):
-    notes = CKEditorField('Notes')
-    submit = SubmitField('Submit')
+    notes = CKEditorField('Notes', validators=[DataRequired(), Length(max=2000)])
+    submit = SubmitField('Save')
 
 class AddTagForm(FlaskForm):
-    name = StringField('name', validators=[DataRequired()], render_kw={"placeholder": "Tag"})
-    submit = SubmitField('Submit')
+    name = StringField('name', validators=[DataRequired(), Length(max=36)], render_kw={"placeholder": "Tag"})
+    submit = SubmitField('Save')

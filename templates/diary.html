@@ -2,17 +2,20 @@
 
 
 {% for diary in diary%}
-Diary: {{diary.title}}
-<a href="{{url_for('delete_diary', id=diary.id)}}">delete this diary</a>
-<a href="{{url_for('edit_diary', id=diary.id)}}">edit title</a>
-<a href="{{url_for('create_entry', id=diary.id)}}">create</a>
+
+
+<div class="column side"></div>
+<div class="column middle">
+  <h1>Diary: {{diary.title}}</h1>
+  <a href="{{url_for('create_entry', id=diary.id)}}" class="button"><i class="fa-solid fa-plus"></i> Create Entry</a>
+  <a href="{{url_for('edit_diary', id=diary.id)}}" class="button"><i class="fa-solid fa-pen-to-square"></i> Edit Title</a>
+  <a href="{{url_for('delete_diary', id=diary.id)}}" class="button" style="float:right"><i class="fa-solid fa-xmark"></i> Delete Diary</a>
 
 
 
-<div class="grid-container">
     {% for entry in diary.entries %}
   <div class="entry">
-    <p><a href="{{url_for('entry', id=entry.id)}}">{{entry.date}}</a></p>
+    <p><a href="{{url_for('entry', id=entry.id)}}" class="button">{{entry.date}}</a></p>
     {% for activity in entry.activities %}
     <p>hours: {{activity.start_time}} {{activity.end_time}}</p>
     {% endfor %}
@@ -20,5 +23,5 @@ Diary: {{diary.title}}
   {% endfor %}
   {% endfor %}
 </div>
-
+</div>
 {% endblock %}

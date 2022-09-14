@@ -1,21 +1,21 @@
 {% extends 'layout.html' %} {% block content %}
 
 <div id="wrapper">
-  <div class="grid-container">
-        <div class="item1">
-          <p>Contents</p>
-          <p><a href="{{url_for('create_diary')}}">create diary</a></p>
+        <div class="column side"></div>
+        <div class="column middle">
+          <div class="container">
+            <a href="{{url_for('create_diary')}}" class="button">
+              <i class="fa-solid fa-plus"></i>
+              Create
+            </a>
         </div>
-        {% for diary in diary %}
-        <div>
-          <a href="{{url_for('diary', id=diary.id)}}">{{diary.title}}</a>
-        </div>
-        {% endfor %}
 
+          {% for diary in diary %}
+          <div class="container">
+            <a href="{{url_for('diary', id=diary.id)}}" class="button">{{diary.title}}</a>
+          </div>
+          {% endfor %}
+        </div>
 </div>
-
-    </div>
-  </div>
-
 
 {% endblock %}
