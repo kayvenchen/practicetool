@@ -5,13 +5,13 @@
 <div class="topnav">
   <ul>
     <li>practice tool</li>
+    {% if current_user.is_authenticated %}
     <li><a href="{{url_for('index')}}"><i class="fa-solid fa-book-open"></i> Diary List</a></li>
 
     <li style=float:right>
         <a href="/logout">Logout</a>
       </li>
-
-
+      {%endif%}
   </ul>
 </div>
 </div>

@@ -1,35 +1,22 @@
+{% extends 'layout.html' %} {% block content %}
 
-<h1>LOGIN</h1>
+
+<div class="column side"></div>
+<div class="column middle">
+  <h1>LOGIN</h1>
 <form clas="login" method="post">
   <!-- Email input -->
-  {{ form.csrf_token }}
+  {{form.csrf_token}}
 
-  <div class="form-outline mb-4">
-    {{form.username()}}
-  </div>
+  <p>{{form.username}}</p>
 
-  <!-- Password input -->
-  <div class="form-outline mb-4">
-    {{form.password()}}
-  </div>
+  <p>{{form.password}}</p>
 
-  <!-- 2 column grid layout for inline styling -->
-  <div class="row mb-4">
-    <div class="col d-flex justify-content-center">
-      <!-- Checkbox -->
-      <div class="form-check">
-        {{form.remember_me()}} Remember
-      </div>
-    </div>
+  <p>{{form.remember_me}} Remember</p>
 
-    <div class="col">
-      <!-- Simple link -->
-      <a href="#!">Forgot password?</a>
-    </div>
-  </div>
+<p><a href="{{url_for('register')}}">Click here to Register</a></p>
 
-  <!-- Submit button -->
-  {{form.submit()}}
+  <p>{{form.submit(class="button")}}</p>
 </form>
-
-<a href="{{url_for('register')}}">Register</a>
+</div>
+{% endblock %}
