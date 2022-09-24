@@ -6,15 +6,14 @@ from flask_ckeditor import CKEditorField
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(max=256)], render_kw={"placeholder": "Username"})
+    email = StringField('Username', validators=[DataRequired(), Length(max=256)], render_kw={"placeholder": "Email"})
     password = PasswordField('Password', validators=[DataRequired(), Length(max=36)], render_kw={"placeholder": "Password"})
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(max=256)], render_kw={"placeholder": "Username"})
-    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=256)], render_kw={"placeholder": "email"})
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=256)], render_kw={"placeholder": "Email"})
     password = PasswordField('Password', validators=[DataRequired(), Length(max=36)], render_kw={"placeholder": "Password"})
     # makes sure 2nd password is same as 1st password
     password2 = PasswordField(

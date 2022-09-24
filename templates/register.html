@@ -6,12 +6,33 @@
   <h1>Register</h1>
 <form class="register" method="post">
 {{form.csrf_token}}
-<p>{{form.username}}</p>
-<p>{{form.email}}</p>
-<p>{{form.password}}</p>
-<p>{{form.password2}}</p>
+<p>{{form.email}}
+{% for error in form.email.errors %}
+  <span style="color: red;">{{ error }}</span>
+{% endfor %}
+</p>
+<p>{{form.password}}
+{% for error in form.password.errors %}
+  <span style="color: red;">{{ error }}</span>
+{% endfor %}</p>
+<p>{{form.password2}}
+{% for error in form.password2.errors %}
+  <span style="color: red;">{{ error }}</span>
+{% endfor %}</p>
+
+<p>{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <span style="color: red;">{{ message }}</span>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</p>
+
 <p>{{form.submit(class="button")}}</p>
 </form>
+
+
 
 <p>Already have an account?<br>
 <a href="{{url_for('login')}}">Click here to Login</a>

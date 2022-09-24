@@ -146,9 +146,9 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = models.User.query.filter_by(username=form.username.data).first()
+        user = models.User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('wrong password or username')
+            flash('wrong password or email')
         else:
             login_user(user, remember=form.remember_me.data)
             flash('Logged in successfully.')
@@ -162,12 +162,16 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = models.User(email=form.email.data, username=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('You are now a registered user.')
-        return redirect(url_for('login'))
+        user = models.User.query.filter_by(email=form.email.data).first()
+        if user is not None:
+            flash('User already exists')
+        else:
+            user = models.User(email=form.email.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('login'))
+            flash('You are now a registered user.')
     return render_template("register.html", form=form)
 
 

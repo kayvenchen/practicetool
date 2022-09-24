@@ -10,7 +10,6 @@ from sqlalchemy.orm import relationship
 class User(UserMixin, db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    username = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
 
