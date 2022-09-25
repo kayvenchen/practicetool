@@ -14,7 +14,7 @@
 <a href="{{url_for('delete_entry', id=entry.id)}}" class="button" style="float:right"><i class="fa-solid fa-xmark"></i> Delete This Entry</a>
 <p>
 {% for tag in entry.tags %}
-  <span><a href="{{url_for('remove_tag', id=entry.id, tid=tag.id)}}">{{tag.name}}</a></span>
+  <span>{{tag.name}}<a href="{{url_for('remove_tag', id=entry.id, tid=tag.id)}}"> <i class="fa-solid fa-xmark"></i></a></span>
 {% endfor%}
 </p>
 <form class="entry" method="post">

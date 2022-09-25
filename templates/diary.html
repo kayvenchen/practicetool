@@ -15,10 +15,19 @@
 
     {% for entry in diary.entries %}
   <div class="entry">
-    <p><a href="{{url_for('entry', id=entry.id)}}" class="button">{{entry.date}}</a></p>
-    {% for activity in entry.activities %}
-    <p>hours: {{activity.start_time}} {{activity.end_time}}</p>
+    <p><a href="{{url_for('entry', id=entry.id)}}" class="button">{{entry.date}}
+      <br>
+
+{% if entry.tags|length > 0 %}
+    tags:
+    {% for tag in entry.tags %}
+    {{tag.name}}
     {% endfor %}
+  {% endif %}
+
+  </a>
+</p>
+
   </div>
   {% endfor %}
   {% endfor %}
