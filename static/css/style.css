@@ -1,7 +1,6 @@
 body {
   background-color: #F3F3F3;
   color: black;
-  border-color: #E9492B;
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   overflow-x: hidden;
   padding: 0;
@@ -44,7 +43,6 @@ a {
 .topnav li a:hover {
   background-color: #ddd;
 }
-
 
 
 /* Create three unequal columns that floats next to each other */

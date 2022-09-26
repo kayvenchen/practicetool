@@ -132,14 +132,14 @@ def entry(id):
 def create_entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id, diary_id=id,
                                          date=datetime.today().date()).first()
-    date = entry.date.strftime('%B %d, %Y')
     if entry is None:
         entry = models.Entry(user_id=current_user.id, diary_id=id,
                              date=datetime.today().date())
         db.session.add(entry)
         db.session.commit()
-        flash(f'Created new entry for "{date}"')
-    flash(f'redirected to existing entry for {date}')
+        flash(f'Created new entry for "{entry.date}"')
+    else:
+        flash(f'redirected to existing entry for {entry.date}')
     return redirect(url_for('entry', id=entry.id))
 
 
@@ -165,13 +165,13 @@ def delete_entry(id):
 @login_required
 def add_tag(id):
     form = AddTagForm()
+    entry = models.Entry.query.filter_by(user_id=current_user.id,
+                                         id=id).first_or_404()
     if form.validate_on_submit():
         # formatting the tag
         name = form.name.data.lower().strip()
         tag = models.Tag.query.filter_by(user_id=current_user.id,
                                          name=name).first()
-        entry = models.Entry.query.filter_by(user_id=current_user.id,
-                                             id=id).first_or_404()
         # checking if the user has already created this tag
         if tag is None:
             # creating a tag
@@ -187,7 +187,7 @@ def add_tag(id):
         db.session.commit()
         flash(f'added tag: "{name}"')
         return redirect(url_for('entry', id=entry.id))
-    return render_template('create_tag.html', form=form)
+    return render_template('create_tag.html', form=form, entry=entry)
 
 
 # dissociate a tag from an entry
@@ -276,4 +276,4 @@ def error401(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -6,7 +6,7 @@
   <p>{{ form.name }}</p>
   <p>{{ form.submit(class="button") }}</p>
 </form>
-<a href="{{url_for('diary', id=diary.id)}}" class="button">Go Back</a>
+<a href="{{url_for('entry', id=entry.id)}}" class="button">Go Back</a>
 
 <p>{% with messages = get_flashed_messages() %}
   {% if messages %}
