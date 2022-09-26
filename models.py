@@ -50,7 +50,7 @@ class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('User.id'), nullable=False)
     diary_id = db.Column(db.Integer, ForeignKey('Diary.id'), nullable=False)
-    date = db.Column(db.Date, default=datetime.today().date())
+    date = db.Column(db.Date)
     notes = db.Column(db.Text)
 
     user = relationship('User', back_populates='entries')

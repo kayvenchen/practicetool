@@ -15,8 +15,8 @@
       </li>
     {%endif%}
     {% if current_user.is_authenticated %}
-    <li><a href="{{url_for('index')}}"><i class="fa-solid fa-book-open"></i> Diary List</a></li>
-
+    <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{{url_for('diary_index')}}"><i class="fa-solid fa-book-open"></i> Diary List</a></li>
     <li style=float:right>
         <a href="{{url_for('logout')}}">Logout</a>
       </li>

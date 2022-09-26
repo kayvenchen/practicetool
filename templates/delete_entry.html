@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} {% block content %}
 <center>
-<h1><b>DELETEING ENTRY: {{entry.date}}</b></h1>
+<h1><b>DELETEING ENTRY FOR "{{entry.date.strftime('%B %d, %Y')}}"</b></h1>
 <b><p>Are you sure you want to delete this entry? <br> This entry cannot be recovered once deleted.</p></b>
 <form class="delete_diary" method="post">
   {{ form.csrf_token }}

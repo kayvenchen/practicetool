@@ -35,10 +35,16 @@ def unauthorized_callback():
     return redirect(url_for('login'))
 
 
-# route that displays all of the user's diaries
+# route for index
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
+    return render_template('index.html')
+
+# route that displays all of the user's diaries
+@app.route('/diary', methods=['GET', 'POST'])
+@login_required
+def diary_index():
     diary = models.Diary.query.filter_by(user_id=current_user.id).all()
     return render_template('diary_index.html', diary=diary)
 
@@ -64,7 +70,7 @@ def create_diary():
         db.session.add(diary)
         db.session.commit()
         flash(f'Created new diary: "{diary.title}"')
-        return redirect(url_for('index'))
+        return redirect(url_for('diary_index'))
     return render_template('create_diary.html', form=form)
 
 
@@ -82,7 +88,8 @@ def edit_diary(id):
         db.session.commit()
         flash(f'Diary title has been changed to: "{diary.title}"')
         return redirect(url_for('diary', id=diary.id))
-    return render_template('edit_diary.html', form=form)
+    form.title.data = diary.title
+    return render_template('edit_diary.html', form=form, diary=diary)
 
 
 # route that deletes a user's diary
@@ -98,7 +105,7 @@ def delete_diary(id):
         db.session.delete(local)
         db.session.commit()
         flash(f'Diary: "{diary.title}" was deleted')
-        return redirect(url_for('index'))
+        return redirect(url_for('diary_index'))
     return render_template('delete_diary.html', form=form, diary=diary)
 
 
@@ -114,6 +121,7 @@ def entry(id):
         db.session.merge(entry)
         db.session.commit()
         flash('Saved notes')
+        return redirect(url_for('entry', id=id))
     form.notes.data = entry.notes
     return render_template('entry.html', entry=entry, form=form)
 
@@ -122,10 +130,16 @@ def entry(id):
 @app.route('/entry/create/<int:id>', methods=['GET', 'POST'])
 @login_required
 def create_entry(id):
-    entry = models.Entry(user_id=current_user.id, diary_id=id)
-    db.session.add(entry)
-    db.session.commit()
-    flash(f'Created new entry: "{entry.date}"')
+    entry = models.Entry.query.filter_by(user_id=current_user.id, diary_id=id,
+                                         date=datetime.today().date()).first()
+    date = entry.date.strftime('%B %d, %Y')
+    if entry is None:
+        entry = models.Entry(user_id=current_user.id, diary_id=id,
+                             date=datetime.today().date())
+        db.session.add(entry)
+        db.session.commit()
+        flash(f'Created new entry for "{date}"')
+    flash(f'redirected to existing entry for {date}')
     return redirect(url_for('entry', id=entry.id))
 
 
@@ -137,10 +151,11 @@ def delete_entry(id):
                                          id=id).first_or_404()
     form = DeletionForm()
     if form.validate_on_submit():
+        date = entry.date.strftime('%B %d, %Y')
         local = db.session.merge(entry)
         db.session.delete(local)
         db.session.commit()
-        flash(f'Deleted entry: "{entry.date}"')
+        flash(f'Deleted entry for "{date}"')
         return redirect(url_for('diary', id=entry.diary.id))
     return render_template('delete_entry.html', form=form, entry=entry)
 

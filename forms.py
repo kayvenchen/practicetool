@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, StringField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
-from wtforms.fields import DateField, TimeField
+from wtforms.fields import DateField
 from flask_ckeditor import CKEditorField
 
 
@@ -26,6 +26,11 @@ class RegistrationForm(FlaskForm):
 # defines variables in DiaryForm
 class DiaryForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=36)], render_kw={"placeholder": "Title"})
+    submit = SubmitField('Save')
+
+# defines variables in EntryForm
+class CreateEntryForm(FlaskForm):
+    notes = DateField('Notes', validators=[DataRequired(), Length(max=2000)])
     submit = SubmitField('Save')
 
 # defines variables in EntryForm

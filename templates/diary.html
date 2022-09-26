@@ -4,7 +4,7 @@
 {% for diary in diary%}
 
   <h1>DIARY: {{diary.title}}</h1>
-  <a href="{{url_for('create_entry', id=diary.id)}}" class="button"><i class="fa-solid fa-plus"></i> Create Entry</a>
+  <a href="{{url_for('create_entry', id=diary.id)}}" class="button"><i class="fa-solid fa-plus"></i> Log Today's activities</a>
   <a href="{{url_for('edit_diary', id=diary.id)}}" class="button"><i class="fa-solid fa-pen-to-square"></i> Edit Title</a>
   <a href="{{url_for('delete_diary', id=diary.id)}}" class="button" style="float:right"><i class="fa-solid fa-xmark"></i> Delete Diary</a>
 
@@ -12,7 +12,7 @@
 
 {% for entry in diary.entries %}
   <div class="container">
-  <a href="{{url_for('entry', id=entry.id)}}" class="linkbutton">{{entry.date}}
+  <a href="{{url_for('entry', id=entry.id)}}" class="linkbutton">{{entry.date.strftime('%B %d, %Y')}}
       <br>
 {% if entry.tags|length > 0 %}
     Tags:
