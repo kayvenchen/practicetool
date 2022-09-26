@@ -1,21 +1,12 @@
 {% extends 'layout.html' %} {% block content %}
+      <a href="{{url_for('create_diary')}}" class="button">
+        <i class="fa-solid fa-plus"></i>
+          Create
+      </a>
 
-<div id="wrapper">
-        <div class="column side"></div>
-        <div class="column middle">
-          <div class="container">
-            <a href="{{url_for('create_diary')}}" class="button">
-              <i class="fa-solid fa-plus"></i>
-              Create
-            </a>
-        </div>
-
-          {% for diary in diary %}
-          <div class="container">
-            <a href="{{url_for('diary', id=diary.id)}}" class="button">{{diary.title}}</a>
-          </div>
-          {% endfor %}
-        </div>
-</div>
-
+  {% for diary in diary %}
+    <div class="container">
+      <a href="{{url_for('diary', id=diary.id)}}" class="linkbutton">{{diary.title}}</a>
+    </div>
+  {% endfor %}
 {% endblock %}

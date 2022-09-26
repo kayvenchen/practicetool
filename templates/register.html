@@ -1,8 +1,5 @@
 {% extends 'layout.html' %} {% block content %}
 
-
-<div class="column side"></div>
-<div class="column middle">
   <h1>Register</h1>
 <form class="register" method="post">
 {{form.csrf_token}}
@@ -19,15 +16,6 @@
 {% for error in form.password2.errors %}
   <span style="color: red;">{{ error }}</span>
 {% endfor %}</p>
-
-<p>{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      <span style="color: red;">{{ message }}</span>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-</p>
 
 <p>{{form.submit(class="button")}}</p>
 </form>

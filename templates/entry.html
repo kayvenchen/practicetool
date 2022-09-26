@@ -1,22 +1,28 @@
 {% extends 'layout.html' %} {% block content %}
 
-<div class="entry">
-
-  <div class="column side"></div>
-  <div class="column middle">
     <p>
       <i class="fa-solid fa-arrow-right"></i>
       <a href="{{url_for('diary', id=entry.diary.id)}}">{{entry.diary.title}}</a>
       <i class="fa-solid fa-arrow-right"></i>
-      <a href="{{url_for('entry', id=entry.id)}}">{{entry.date}}
+      <a href="{{url_for('entry', id=entry.id)}}">{{entry.date}}</a>
     </p>
+
+    <h1>ENTRY: {{entry.date}}</h1>
+
 <a href="{{url_for('add_tag', id=entry.id)}}" class="button"><i class="fa-solid fa-plus"></i> Add Tags</a>
 <a href="{{url_for('delete_entry', id=entry.id)}}" class="button" style="float:right"><i class="fa-solid fa-xmark"></i> Delete This Entry</a>
 <p>
-{% for tag in entry.tags %}
-  <span>{{tag.name}}<a href="{{url_for('remove_tag', id=entry.id, tid=tag.id)}}"> <i class="fa-solid fa-xmark"></i></a></span>
-{% endfor%}
+
+{% if entry.tags|length > 0 %}
+    Tags:
+    <br>
+    {% for tag in entry.tags %}
+      {{tag.name}}<a href="{{url_for('remove_tag', id=entry.id, tid=tag.id)}}"> <i class="fa-solid fa-xmark"></i></a>
+      <br>
+    {% endfor %}
+  {% endif %}
 </p>
+
 <form class="entry" method="post">
   {{ form.csrf_token }}
   <div class="text-editor">
@@ -24,6 +30,4 @@
   </div>
 {{ form.submit(class="button", style="float:right") }}
 </form>
-</div>
-</div>
 {% endblock %}

@@ -13,9 +13,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.Text, nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
     diary = relationship('Diary', back_populates='user',
-                         cascade="all, delete-orphan", ondelete="CASCADE")
+                         cascade="all, delete-orphan")
     entries = relationship('Entry', back_populates='user',
-                           cascade="all, delete-orphan", ondelete="CASCADE")
+                           cascade="all, delete-orphan")
 
     def set_password(self, password_hash):
         self.password_hash = generate_password_hash(password_hash)
@@ -34,14 +34,15 @@ class Diary(db.Model):
     title = db.Column(db.String)
     user = relationship('User', back_populates='diary')
     entries = relationship('Entry', back_populates='diary',
-                           cascade="all, delete-orphan", ondelete="CASCADE")
+                           cascade="all, delete-orphan")
 
     def __repr__(self):
         return '<Diary{}>'.format(self.title)
 
 EntryTag = db.Table('EntryTag', db.Model.metadata,
-    db.Column('entry_id', db.Integer, db.ForeignKey('Entry.id')),
-    db.Column('tag_id', db.Integer, db.ForeignKey('Tag.id')))
+                    db.Column('entry_id', db.Integer, db.ForeignKey('Entry.id')
+                              ),
+                    db.Column('tag_id', db.Integer, db.ForeignKey('Tag.id')))
 
 
 class Entry(db.Model):

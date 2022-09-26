@@ -1,0 +1,11 @@
+{% extends 'layout.html' %} {% block content %}
+<center>
+<h1><b>DELETEING DIARY: {{diary.title}}</b></h1>
+ <b><p>Are you sure you want to delete this diary? <br> This diary cannot be recovered once deleted.</p></b>
+<form class="delete_diary" method="post">
+  {{ form.csrf_token }}
+  {{ form.submit(class="button", style="background-color:#f44336; color:white;") }}
+</form>
+ <a href="{{url_for('diary', id=diary.id)}}" class="button">Go Back</a>
+</center>
+{% endblock %}
