@@ -1,11 +1,11 @@
 {% extends 'layout.html' %} {% block content %}
 <center>
-  Create Diary
+  Edit Title
 <form class="create_diary" method="post">
   {{ form.csrf_token }}
   <p>{{ form.title }}</p>
   <p>{{ form.submit(class="button") }}</p>
 </form>
-<a href="{{url_for('diary_index')}}" class="button">Go Back</a>
+<a href="{{url_for('diary', id=diary.id)}}" class="button">Go Back</a>
 </center>
 {% endblock %}
