@@ -63,7 +63,7 @@ def create_diary():
         diary = models.Diary(user_id=current_user.id, title=form.title.data)
         db.session.add(diary)
         db.session.commit()
-        flash(f'Created new diary: {diary.title}')
+        flash(f'Created new diary: "{diary.title}"')
         return redirect(url_for('index'))
     return render_template('create_diary.html', form=form)
 
@@ -80,13 +80,13 @@ def edit_diary(id):
         diary.title = form.title.data
         db.session.merge(diary)
         db.session.commit()
-        flash(f'Diary title has been changed to: {diary.title}')
+        flash(f'Diary title has been changed to: "{diary.title}"')
         return redirect(url_for('diary', id=diary.id))
     return render_template('edit_diary.html', form=form)
 
 
 # route that deletes a user's diary
-@app.route('/diary/delete/<int:id>')
+@app.route('/diary/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_diary(id):
     diary = models.Diary.query.filter_by(user_id=current_user.id,
@@ -97,7 +97,7 @@ def delete_diary(id):
         local = db.session.merge(diary)
         db.session.delete(local)
         db.session.commit()
-        flash('diary was deleted')
+        flash(f'Diary: "{diary.title}" was deleted')
         return redirect(url_for('index'))
     return render_template('delete_diary.html', form=form, diary=diary)
 
@@ -125,12 +125,12 @@ def create_entry(id):
     entry = models.Entry(user_id=current_user.id, diary_id=id)
     db.session.add(entry)
     db.session.commit()
-    flash(f'Created new entry: {entry.date}')
+    flash(f'Created new entry: "{entry.date}"')
     return redirect(url_for('entry', id=entry.id))
 
 
 # route that allows user to delete an entry
-@app.route('/entry/delete/<int:id>')
+@app.route('/entry/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id,
@@ -140,7 +140,7 @@ def delete_entry(id):
         local = db.session.merge(entry)
         db.session.delete(local)
         db.session.commit()
-        flash(f'Deleted entry: {entry.date}')
+        flash(f'Deleted entry: "{entry.date}"')
         return redirect(url_for('diary', id=entry.diary.id))
     return render_template('delete_entry.html', form=form, entry=entry)
 
@@ -170,7 +170,7 @@ def add_tag(id):
         entry.tags.append(tag)
         db.session.merge(entry)
         db.session.commit()
-        flash(f'added tag: {name}')
+        flash(f'added tag: "{name}"')
         return redirect(url_for('entry', id=entry.id))
     return render_template('create_tag.html', form=form)
 
@@ -187,7 +187,7 @@ def remove_tag(id, tid):
     entry.tags.remove(tag)
     db.session.merge(entry)
     db.session.commit()
-    flash(f'removed tag: {tag.name}')
+    flash(f'removed tag: "{tag.name}"')
     return redirect(url_for('entry', id=entry.id))
 
 

@@ -3,7 +3,8 @@
   Create Diary
 <form class="create_diary" method="post">
   {{ form.csrf_token }}
-  <p>{{ form.submit(class="button")}}</p>
+  {{ form.title }}
+  <p>{{ form.submit(class="button") }}</p>
 </form>
 </center>
 {% endblock %}
