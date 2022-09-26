@@ -1,7 +1,0 @@
-{% extends 'layout.html' %} {% block content %}
-  <form class="open_diary" method="post">
-    {{ form.csrf_token }}
-    {{ form.notes }}
-    {{ form.submit }}
-  </form>
-{% endblock %}
