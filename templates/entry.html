@@ -28,6 +28,9 @@
   <div class="text-editor">
     {{ form.notes }}
   </div>
+  {% for error in form.notes.errors %}
+    <span style="color: red;">{{ error }}</span>
+  {% endfor %}
 {{ form.submit(class="button", style="float:right") }}
 </form>
 {% endblock %}

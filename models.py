@@ -6,7 +6,7 @@ from flask_login import UserMixin
 from datetime import datetime
 from sqlalchemy.orm import relationship
 
-
+# classes objects in user model
 class User(UserMixin, db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -27,6 +27,7 @@ class User(UserMixin, db.Model):
         return '<User{}>'.format(self.email)
 
 
+# classes objects in Diary model
 class Diary(db.Model):
     __tablename__ = 'Diary'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -39,12 +40,15 @@ class Diary(db.Model):
     def __repr__(self):
         return '<Diary{}>'.format(self.title)
 
+
+# entry and tag association table many-many
 EntryTag = db.Table('EntryTag', db.Model.metadata,
                     db.Column('entry_id', db.Integer, db.ForeignKey('Entry.id')
                               ),
                     db.Column('tag_id', db.Integer, db.ForeignKey('Tag.id')))
 
 
+# classes objects in Entry model
 class Entry(db.Model):
     __tablename__ = 'Entry'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -61,6 +65,7 @@ class Entry(db.Model):
         return '<Entry{}>'.format(self.date)
 
 
+# classes objects in Tag model
 class Tag(db.Model):
     __tablename__ = 'Tag'
     id = db.Column(db.Integer, primary_key=True, nullable=False)

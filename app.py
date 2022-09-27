@@ -243,8 +243,8 @@ def register():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('login'))
             flash('You are now a registered user.')
+            return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
 
