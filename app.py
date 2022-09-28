@@ -45,7 +45,9 @@ def index():
 @app.route('/diary', methods=['GET', 'POST'])
 @login_required
 def diary_index():
-    diary = models.Diary.query.filter_by(user_id=current_user.id).all()
+    diary = models.Diary.query.filter_by(
+                                         user_id=current_user.id).order_by(
+                                         models.Diary.title).all()
     return render_template('diary_index.html', diary=diary)
 
 
@@ -276,4 +278,4 @@ def error401(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

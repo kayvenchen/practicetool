@@ -35,7 +35,8 @@ class Diary(db.Model):
     title = db.Column(db.String)
     user = relationship('User', back_populates='diary')
     entries = relationship('Entry', back_populates='diary',
-                           cascade="all, delete-orphan")
+                           cascade="all, delete-orphan",
+                           order_by="desc(Entry.date)")
 
     def __repr__(self):
         return '<Diary{}>'.format(self.title)
@@ -59,7 +60,8 @@ class Entry(db.Model):
 
     user = relationship('User', back_populates='entries')
     diary = relationship('Diary', back_populates='entries')
-    tags = relationship('Tag', secondary=EntryTag, back_populates='entries')
+    tags = relationship('Tag', secondary=EntryTag, back_populates='entries',
+                        order_by="Tag.name")
 
     def __repr__(self):
         return '<Entry{}>'.format(self.date)
