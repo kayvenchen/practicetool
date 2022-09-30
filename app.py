@@ -32,12 +32,11 @@ def load_user(id):
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 # route for index
 @app.route('/', methods=['GET', 'POST'])
-@login_required
 def index():
     return render_template('index.html')
 
@@ -48,6 +47,8 @@ def diary_index():
     diary = models.Diary.query.filter_by(
                                          user_id=current_user.id).order_by(
                                          models.Diary.title).all()
+    if len(diary) == 0:
+        flash('Click create to create a diary.')
     return render_template('diary_index.html', diary=diary)
 
 
@@ -72,6 +73,7 @@ def create_diary():
         db.session.add(diary)
         db.session.commit()
         flash(f'Created new diary: "{diary.title}"')
+        flash(f'please click on "{diary.title}" to open it')
         return redirect(url_for('diary_index'))
     return render_template('create_diary.html', form=form)
 
@@ -119,6 +121,7 @@ def entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id,
                                          id=id).first_or_404()
     if form.validate_on_submit():
+        # edit existing entry in database
         entry.notes = form.notes.data
         db.session.merge(entry)
         db.session.commit()
@@ -135,6 +138,7 @@ def create_entry(id):
     entry = models.Entry.query.filter_by(user_id=current_user.id, diary_id=id,
                                          date=datetime.today().date()).first()
     if entry is None:
+        # if entry is none it will add a new one for today
         entry = models.Entry(user_id=current_user.id, diary_id=id,
                              date=datetime.today().date())
         db.session.add(entry)
@@ -153,11 +157,11 @@ def delete_entry(id):
                                          id=id).first_or_404()
     form = DeletionForm()
     if form.validate_on_submit():
-        date = entry.date.strftime('%B %d, %Y')
+        # delete entry from database
         local = db.session.merge(entry)
         db.session.delete(local)
         db.session.commit()
-        flash(f'Deleted entry for "{date}"')
+        flash(f'Deleted entry for "{entry.date}"')
         return redirect(url_for('diary', id=entry.diary.id))
     return render_template('delete_entry.html', form=form, entry=entry)
 
@@ -181,13 +185,18 @@ def add_tag(id):
             local = db.session.merge(tag_to_add)
             db.session.add(local)
             db.session.commit()
-        # adding to the association table
-        tag = models.Tag.query.filter_by(user_id=current_user.id,
-                                         name=name).first_or_404()
-        entry.tags.append(tag)
-        db.session.merge(entry)
-        db.session.commit()
-        flash(f'added tag: "{name}"')
+        # checking if the tag has already been added to the entry
+        if tag in entry.tags:
+            flash(f'''"{tag.name}" has already been used in this entry,
+                  please enter unique tags.''')
+        else:
+            # adding to the association table
+            tag = models.Tag.query.filter_by(user_id=current_user.id,
+                                             name=name).first_or_404()
+            entry.tags.append(tag)
+            db.session.merge(entry)
+            db.session.commit()
+            flash(f'added tag: "{name}"')
         return redirect(url_for('entry', id=entry.id))
     return render_template('create_tag.html', form=form, entry=entry)
 
@@ -224,7 +233,7 @@ def login():
             # login user if user information is correct
             login_user(user, remember=form.remember_me.data)
             flash('Logged in successfully.')
-        return redirect(url_for('index'))
+        return redirect(url_for('diary_index'))
     return render_template('login.html', form=form)
 
 
@@ -245,7 +254,7 @@ def register():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
-            flash('You are now a registered user.')
+            flash('You are now a registered user, please login.')
             return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
@@ -256,26 +265,25 @@ def register():
 def logout():
     logout_user()
     flash('You have successfully logged out.')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
-# error handler for a 404 error (returns 404.html instead of standard 404 page)
+# error handler for a 404 error
 @app.errorhandler(404)
 def error404(error):
     return render_template('404.html', title='Error'), 404
 
 
-# error handler for a 500 error (returns 500.html instead of standard 500 page)
-@app.errorhandler(500)
+# error handler for a 500 error
 def error500(error):
     return render_template('500.html')
 
 
-# error handler for a 401 error (returns 401.html instead of standard 401 page)
+# error handler for a 401 error
 @app.errorhandler(401)
 def error401(error):
     return render_template('401.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

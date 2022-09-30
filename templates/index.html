@@ -1,15 +1,16 @@
 {% extends 'layout.html' %} {% block content %}
 
-<h2>Welcome {{current_user.email}}</h2>
+<h2>Welcome {{ current_user.email }}</h2>
 
 <p>This is a diary application made using Flask.</p>
 <p>In this application, you can create diaries for different subjects and log your activity for the day.</p>
 <p>This application is primarily designed for skills that take years to master. (e.g. instruments, languages)</p>
 <p>This app only allows you to log activities of the current day to encourage
   daily review, which greatly helps with retaining learned information.</p>
-<p>To get started, Please navigate to the "Diary List" tab to create a diary.</p>
 
-<p> <b>For Returning Users:</b>
-  <br>
-Please navigate to the "Diary List" tab to view your diaries.</p>
+{% if not current_user.is_authenticated %}
+<p><b>To use this app please create an account, or login</b></p>
+<a href="{{url_for('register')}}" class="button">Register</a>
+<a href="{{url_for('login')}}" class="button">Login</a>
+{% endif %}
 {% endblock %}
